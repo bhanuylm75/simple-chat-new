@@ -5,13 +5,13 @@ import Image from "next/image";
 import getChatPartner from "../lib/getchatpatner";
 import getLocalUser from "../lib/getuserdata"; // Assume it returns a promise that resolves with data
 const a=getLocalUser()
-const b=JSON.parse(JSON.stringify(a))
+const user=JSON.parse(JSON.stringify(a))
 
 const Chatheader = ({ chatid }) => {
   const [chatPartner, setChatPartner] = useState(null);
-  const [userid, setuserid] = useState(b?.id)
-  const [userId1, userId2] = chatid.split('--')
-  const chatpartnerid = userId1 === userid? userId2 : userId1
+  //const [userid, setuserid] = useState(b?.id)
+  //const [userId1, userId2] = chatid.split('--')
+  //const chatpartnerid = userId1 === userid? userId2 : userId1
 
 
   
@@ -33,8 +33,8 @@ const Chatheader = ({ chatid }) => {
     if (chatPartner && chatPartner._id) {
       async function addToMyChats() {
         try {
-          const response = await axios.post("http://localhost:3002/mychats", {
-            userid,
+          const response = await axios.post("https://api-chat.treepr.in/mychats", {
+            user,
             chatPartner,
           });
           console.log("Chat created response:", response.data);

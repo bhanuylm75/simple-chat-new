@@ -29,7 +29,7 @@ const Messages = ({ chatid, sessionImg }) => {
   useEffect(() => {
     async function fetchMessages() {
       try {
-        const response = await axios.get(`http://localhost:3002/api/messages/${chatid}`);
+        const response = await axios.get(`https://api-chat.treepr.in/api/messages/${chatid}`);
         setMessages(response.data);
       } catch (error) {
         console.error("Error fetching chat messages:", error.message);
@@ -40,7 +40,7 @@ const Messages = ({ chatid, sessionImg }) => {
 
   // Setup socket connection
   useEffect(() => {
-    socketRef.current = io("http://localhost:3002");
+    socketRef.current = io("https://api-chat.treepr.in");
     const socket = socketRef.current;
 
     socket.on("connect", () => {
