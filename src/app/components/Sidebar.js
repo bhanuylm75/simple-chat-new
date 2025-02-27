@@ -34,7 +34,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="bg-white w-full cursor-pointer px-4 pt-2 h-full rounded-lg relative shadow-lg">
+    <div className="bg-white w-full h-screen md:h-full  cursor-pointer px-4 pt-2 rounded-lg relative shadow-lg ">
       <h1 className="text-xl md:text-2xl pb-3 font-bold text-gray-800">Chats</h1>
       
       {/* Search Bar */}

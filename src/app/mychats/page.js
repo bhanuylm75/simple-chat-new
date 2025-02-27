@@ -8,7 +8,7 @@ const Page = async () => {
  
   
   return (
-    <div className=' bg-white-950 flex h-full flex-row  '>
+    <div className=' bg-white-950 flex h-screen flex-row md:h-full  '>
       <div className="w-full lg:w-[28%]  ">
         <Sidebar/>
         </div>
