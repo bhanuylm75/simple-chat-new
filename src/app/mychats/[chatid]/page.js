@@ -2,7 +2,7 @@
 import { db } from "@/app/lib/db";
 //import { getServerSession } from "next-auth";
 import Image from 'next/image'
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+//import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import Messages from "@/app/components/messages";
 import getchatpatnerid from "@/app/lib/getchatpatner";
 import Chatheader from "@/app/components/chat-header";

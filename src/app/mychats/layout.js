@@ -1,8 +1,7 @@
 import Minibar from "@/app/components/Minibar";
 import Sidebar from "@/app/components/Sidebar";
 
-import { getServerSession } from 'next-auth'
-import { authOptions } from "../api/auth/[...nextauth]/route";
+
 
 export default async function DashboardLayout({ children}) {
   const session = await getServerSession(authOptions)
