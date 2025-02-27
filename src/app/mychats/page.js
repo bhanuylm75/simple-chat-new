@@ -1,14 +1,9 @@
 import ChatInput from '../components/Chatinput';
 import Sidebar from '../components/Sidebar';
-import { authOptions } from '../api/auth/[...nextauth]/route';
-import { getServerSession } from 'next-auth';
-//import { useEffect, useState } from "react";
-import io from "socket.io-client";
-import getLocalUser from '../lib/getuserdata';
+
 
 const Page = async () => {
-  //const session = await getServerSession(authOptions);
- 
+  
 
  
   

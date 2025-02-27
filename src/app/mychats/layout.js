@@ -4,8 +4,7 @@ import Sidebar from "@/app/components/Sidebar";
 
 
 export default async function DashboardLayout({ children}) {
-  const session = await getServerSession(authOptions)
- 
+  
   return (
     <div className=" bg-gray-100  lg:pt-5 lg:pb-2 h-screen flex flex-row w-[100%]">
       <div className="w-16">
