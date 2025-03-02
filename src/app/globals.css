@@ -20,7 +20,29 @@
   background-color: rgba(237, 242, 247, var(--bg-opacity));
 }
 
+
 .scrollbar-thumb-rounded::-webkit-scrollbar-thumb {
   border-radius: 0.25rem;
 }
 
+html, body, #__next {
+  height: 100%;
+  
+  
+  
+ 
+}
+/* Hide scrollbar for Chrome, Safari, and Edge */
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for Firefox */
+.scrollbar-hidden {
+  scrollbar-width: none;
+}
+
+/* Hide scrollbar for IE and Edge */
+.scrollbar-hidden {
+  -ms-overflow-style: none;
+}

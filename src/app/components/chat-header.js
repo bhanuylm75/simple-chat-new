@@ -1,20 +1,17 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
 import axios from "axios";
-import Image from "next/image";
 import getChatPartner from "../lib/getchatpatner";
-import getLocalUser from "../lib/getuserdata"; // Assume it returns a promise that resolves with data
-const a=getLocalUser()
-const user=JSON.parse(JSON.stringify(a))
 
 const Chatheader = ({ chatid }) => {
   const [chatPartner, setChatPartner] = useState(null);
-  //const [userid, setuserid] = useState(b?.id)
-  //const [userId1, userId2] = chatid.split('--')
-  //const chatpartnerid = userId1 === userid? userId2 : userId1
+  const router = useRouter();
 
+  // Fetch user from localStorage
+  const user = typeof window !== "undefined" ? JSON.parse(localStorage.getItem("userData")) : null;
 
-  
   useEffect(() => {
     async function fetchChatPartner() {
       try {
@@ -30,45 +27,48 @@ const Chatheader = ({ chatid }) => {
   }, [chatid]);
 
   useEffect(() => {
-    if (chatPartner && chatPartner._id) {
+    if (chatPartner && chatPartner._id && user) {
       async function addToMyChats() {
         try {
-          const response = await axios.post("https://api-chat.treepr.in/mychats", {
+          await axios.post("http://localhost:3002/addtomychats", {
             user,
             chatPartner,
+            chatid,
           });
-          console.log("Chat created response:", response.data);
         } catch (error) {
-          console.error("Error creating chat:", error);
+          console.error("Error adding chat:", error);
         }
       }
       addToMyChats();
     }
-  }, [chatid, chatPartner]);
-  
+  }, [chatid, chatPartner, user]);
 
-  
+  // Generate avatar based on name
+  const generateAvatar = (name) => {
+    return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random&color=ffffff&size=128`;
+  };
 
   return (
-    <div className="flex sm:items-center cursor-pointer pl-4 justify-between py-3 border-b border-gray-200">
+    <div className="flex items-center bg-white w-full px-4 py-3 border-b border-gray-200 shadow-sm">
+      {/* Back Button - Only visible on Mobile */}
+      <button
+        onClick={() => router.push("/mychats")}
+        className="md:hidden flex items-center justify-center p-2 rounded-full hover:bg-gray-100 transition"
+      >
+        <ArrowLeft className="w-6 h-6 text-gray-600" />
+      </button>
+
       <div className="relative flex items-center space-x-4">
-        <div className="relative">
-          <div className="relative w-6 sm:w-12 h-6 sm:h-12">
-            <img
-              src="https://i.pravatar.cc/150?img=3"
-              alt="Chat Partner"
-              className="rounded-full"
-            />
-          </div>
+        <div className="relative w-10 sm:w-12 h-10 sm:h-12">
+          <img
+            src={chatPartner ? generateAvatar(chatPartner.name) : "https://i.pravatar.cc/150?img=3"}
+            alt="Chat Partner"
+            className="rounded-full border border-gray-300 shadow-sm"
+          />
         </div>
         <div className="flex flex-col leading-tight">
-          <div className="text-lg flex items-center">
-            <span className="text-gray-700 mr-3 font-semibold">
-              {chatPartner ? chatPartner.name : "Loading..."}
-            </span>
-          </div>
-          <span className="text-sm text-gray-600">
-            {chatPartner ? chatPartner.email : ""}
+          <span className="text-lg font-semibold text-gray-800">
+            {chatPartner ? chatPartner.name : "Loading..."}
           </span>
         </div>
       </div>

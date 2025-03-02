@@ -6,11 +6,9 @@ import Sidebar from "@/app/components/Sidebar";
 export default async function DashboardLayout({ children}) {
   
   return (
-    <div className=" bg-gray-100  lg:pt-5 lg:pb-2 h-screen flex flex-row w-[100%]">
-      <div className="w-16">
-      <Minibar/>
-      </div>
-         <div className="w-[95%]">
+    <div className=" bg-gray-100 h-full pr-2 lg:pr-0    pt-4 pb-4 flex flex-row w-full">
+
+         <div className="w-full " >
           {children}
          </div>
      

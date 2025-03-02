@@ -95,6 +95,18 @@ const Messages = ({ chatid, sessionImg }) => {
     }
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      window.scrollTo(0, document.body.scrollHeight);
+    };
+  
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  
+
+  
+
   const handleSendMessage = async () => {
     if (!input.trim()) return;
     setIsLoading(true);
@@ -123,7 +135,7 @@ const Messages = ({ chatid, sessionImg }) => {
       {/* Scrollable Messages Container */}
       <div
         id="messages"
-        className="bg-white flex flex-1 flex-col gap-2 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2"
+        className="bg-white h-full flex flex-1 mb-3 pt-28 md:pt-2 flex-col gap-2  pr-3 pl-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2"
       >
         {messages.map((message, index) => {
           const isCurrentUser = message.senderId === sessionId;
@@ -176,7 +188,8 @@ const Messages = ({ chatid, sessionImg }) => {
       </div>
 
       {/* Fixed Input Section */}
-      <div className="w-full flex items-center gap-3 bg-white pt-2 pb-3 px-4">
+      <div className="sticky bottom-0   w-full    z-20  ">
+      <div className="  flex items-center w-full pt-0 gap-3 px-3 pb-3  ">
         <textarea
           className="flex-grow w-full resize-none border rounded-lg p-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
           rows={1}
@@ -184,6 +197,7 @@ const Messages = ({ chatid, sessionImg }) => {
           onChange={(e) => setInput(e.target.value)}
           placeholder="Type your message..."
           disabled={isLoading}
+          
         />
         <button
           onClick={handleSendMessage}
@@ -192,6 +206,7 @@ const Messages = ({ chatid, sessionImg }) => {
         >
           {isLoading ? "Sending..." : "Send"}
         </button>
+      </div>
       </div>
     </>
   );
