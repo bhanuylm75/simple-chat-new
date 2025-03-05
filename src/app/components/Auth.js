@@ -3,12 +3,14 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { Mail, Lock, User } from "lucide-react";
+import { useAuth } from "../lib/contextapi";
 
 const Auth = () => {
   const router = useRouter();
   const [isRegister, setIsRegister] = useState(false);
   const [formData, setFormData] = useState({ name: "", email: "", password: "" });
   const [message, setMessage] = useState("");
+  const { login } = useAuth();
 
   const validateForm = () => {
     const { email, password, name } = formData;
@@ -33,15 +35,16 @@ const Auth = () => {
     if (!validateForm()) return;
     try {
       const url = isRegister
-        ? "https://api-chat.treepr.in/api/register"
-        : "https://api-chat.treepr.in/login";
+        ? "http://localhost:3002/api/register"
+        : "http://localhost:3002/api/login";
       const { data } = await axios.post(url, formData);
       if (data.error) {
         setMessage(data.error);
       } else {
         setMessage(isRegister ? "Registered successfully!" : "Logged in successfully!");
+        console.log(data)
         localStorage.setItem("userData", JSON.stringify(data.user));
-        if (!isRegister) localStorage.setItem("token", data.token);
+        login(data.token);
         router.push("/mychats");
       }
     } catch (error) {
@@ -51,7 +54,7 @@ const Auth = () => {
 
   const handleGuestLogin = async () => {
     try {
-      const { data } = await axios.post("https://api-chat.treepr.in/login", {
+      const { data } = await axios.post("https://api-chat.treepr.in/api/login", {
         email: "guest@example.com",
         password: "guest123",
       });
@@ -69,7 +72,7 @@ const Auth = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-400 to-purple-600 px-4">
+    <div className="flex w-full  justify-center items-center bg-gradient-to-br from-blue-400 to-purple-600 px-4" style={{ minHeight: "100vh" }}>
       <div className="bg-white/10 backdrop-blur-lg p-8 sm:p-10 rounded-2xl shadow-xl w-full max-w-md border border-white/20">
         <h2 className="text-3xl font-bold mb-6 text-white text-center tracking-wide">
           {isRegister ? "Create an Account" : "Welcome Back"}

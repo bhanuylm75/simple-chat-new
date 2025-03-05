@@ -61,7 +61,7 @@ const Chatheader = ({ chatid }) => {
       <div className="relative flex items-center space-x-4">
         <div className="relative w-10 sm:w-12 h-10 sm:h-12">
           <img
-            src={chatPartner ? generateAvatar(chatPartner.name) : "https://i.pravatar.cc/150?img=3"}
+            src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${chatPartner.name}`}
             alt="Chat Partner"
             className="rounded-full border border-gray-300 shadow-sm"
           />
