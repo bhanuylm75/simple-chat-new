@@ -44,7 +44,7 @@ const Sidebar = () => {
 
   const fetchMyChats = async () => {
     try {
-      const response = await axios.get(`http://localhost:3002/mychats/${sessionId}`);
+      const response = await axios.get(`https://api-chat.treepr.in/mychats/${sessionId}`);
       setMyChats(response?.data);
     } catch (e) {
       console.log(e);

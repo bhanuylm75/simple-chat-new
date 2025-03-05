@@ -35,8 +35,8 @@ const Auth = () => {
     if (!validateForm()) return;
     try {
       const url = isRegister
-        ? "http://localhost:3002/api/register"
-        : "http://localhost:3002/api/login";
+        ? "https://api-chat.treepr.in/api/register"
+        : "https://api-chat.treepr.in/api/login";
       const { data } = await axios.post(url, formData);
       if (data.error) {
         setMessage(data.error);
