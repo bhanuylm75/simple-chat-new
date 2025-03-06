@@ -23,6 +23,7 @@ const Sidebar = () => {
     fetchMyChats();
   }, [sessionId]);
 
+
   const fetchAllUsers = async () => {
     try {
       const { data } = await axios.get("https://api-chat.treepr.in/api/users");
@@ -52,7 +53,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="bg-white h-full w-full cursor-pointer px-4 pt-4 lg:pt-2 rounded-lg relative shadow-lg flex flex-col">
+    <div className="bg-white h-full w-full cursor-pointer px-4 pt-4  lg:pt-2 rounded-lg relative shadow-lg flex flex-col">
       <h1 className="text-xl md:text-2xl pb-3 font-bold text-gray-800">Chats</h1>
 
       {/* Search Bar */}

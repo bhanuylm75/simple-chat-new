@@ -30,7 +30,7 @@ const Chatheader = ({ chatid }) => {
     if (chatPartner && chatPartner._id && user) {
       async function addToMyChats() {
         try {
-          await axios.post("http://localhost:3002/addtomychats", {
+          await axios.post("https://api-chat.treepr.in/addtomychats", {
             user,
             chatPartner,
             chatid,
@@ -49,7 +49,7 @@ const Chatheader = ({ chatid }) => {
   };
 
   return (
-    <div className="flex items-center bg-white w-full px-4 py-3 border-b border-gray-200 shadow-sm">
+    <div className="flex items-center bg-white w-full lg:px-4 py-3 border-b border-gray-200 shadow-sm">
       {/* Back Button - Only visible on Mobile */}
       <button
         onClick={() => router.push("/mychats")}
@@ -61,7 +61,7 @@ const Chatheader = ({ chatid }) => {
       <div className="relative flex items-center space-x-4">
         <div className="relative w-10 sm:w-12 h-10 sm:h-12">
           <img
-            src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${chatPartner.name}`}
+            src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${chatPartner?.name}`}
             alt="Chat Partner"
             className="rounded-full border border-gray-300 shadow-sm"
           />

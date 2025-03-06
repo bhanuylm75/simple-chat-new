@@ -63,7 +63,7 @@ const Auth = () => {
       } else {
         setMessage("Logged in as guest!");
         localStorage.setItem("userData", JSON.stringify(data.user));
-        localStorage.setItem("token", data.token);
+        login(data.token);
         router.push("/mychats");
       }
     } catch (error) {

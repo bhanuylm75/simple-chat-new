@@ -10,7 +10,7 @@ const Page = async () => {
        <div className="w-16">
       <Minibar/>
       </div>
-      <div className="w-full  lg:w-[28%]  ">
+      <div className="w-full mr-2 lg:mr-0  lg:w-[28%]  ">
         <Sidebar/>
         </div>
     </div>

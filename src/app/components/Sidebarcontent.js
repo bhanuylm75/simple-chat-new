@@ -13,12 +13,16 @@ const generateDummyUsers = (count) => {
 const users = generateDummyUsers(1000); // Example with 1000 users
 
 // Each row in the list (a single user card)
-const Row = ({ index, style,data }) => {
-  const user = data[index];
+const Row = ({ index, style, data }) => {
+  const { users, sessionId } = data; // Extract users and sessionId
+  const user = users[index];
 
   return (
-    <Link href={`/mychats/${chatHrefConstructor("sessionId", user._id)}`} key={user._id}>
-      <div className="flex items-center shadow-sm gap-4 p-3 border-b last:border-none lg:hover:bg-gray-100 transition rounded-lg" style={style}>
+    <Link href={`/mychats/${chatHrefConstructor(sessionId, user._id)}`} key={user._id}>
+      <div
+        className="flex items-center shadow-sm gap-4 p-3 border-b last:border-none lg:hover:bg-gray-100 transition rounded-lg"
+        style={style}
+      >
         <img
           src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user.name}`}
           alt={user.name}
@@ -32,15 +36,21 @@ const Row = ({ index, style,data }) => {
   );
 };
 
-const Sidebarcontent = ({ text,data }) => {
+const Sidebarcontent = ({ text, data, sessionId }) => {
   return (
-    <div className=" flex flex-col h-full   overflow-hidden pt-4">
+    <div className="flex flex-col h-full overflow-hidden pt-4">
       <p className="text-lg z-20 font-semibold text-gray-700 pb-4">{text}</p>
 
       {/* Virtualized List */}
-      <List height={420} className="scrollbar-hidden lg:h-0" itemData={data}  itemCount={data.length} itemSize={70} width="100%">
+      <List
+        height={420}
+        className="scrollbar-hidden lg:h-0"
+        itemData={{ users: data, sessionId }} // Pass sessionId with users
+        itemCount={data.length}
+        itemSize={70}
+        width="100%"
+      >
         {Row}
-
       </List>
     </div>
   );

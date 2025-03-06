@@ -154,7 +154,7 @@ const Messages = ({ chatid, sessionImg }) => {
                     {!hasNextMessageFromSameUser && (
                       <div className="w-8 h-8 mr-2 flex-shrink-0">
                         <img
-                          src={chatpartner?.image || "https://i.pravatar.cc/150?img=3"}
+                          src={chatpartner?.image || `https://api.dicebear.com/7.x/avataaars/svg?seed=${chatpartner?.name}`}
                           alt="Profile"
                           referrerPolicy="no-referrer"
                           className="rounded-full w-full h-full object-cover"
