@@ -7,7 +7,7 @@ import { useAuth } from "../lib/contextapi";
 
 const Minibar = () => {
   const [activeIcon, setActiveIcon] = useState(null);
-  const {logout}=useAuth
+  const {logout}=useAuth()
   const router = useRouter();
 
   const handleIconClick = (iconName) => {
@@ -15,7 +15,7 @@ const Minibar = () => {
   };
 
   const handleLogout = () => {
-    consoe.log("pp")
+    console.log("pp")
     logout();
     router.push("/"); // ✅ Move router logic inside a component
   };
@@ -42,7 +42,7 @@ const Minibar = () => {
       {/* Logout Icon */}
       <div className="p-2">
         <div
-          onClick={() => handleLogout}
+          onClick={() => handleLogout()}
           className={`flex justify-center items-center p-2 rounded-md cursor-pointer transition-all duration-300 ${
             activeIcon === "logout" ? "bg-gray-200" : "hover:bg-gray-200"
           }`}

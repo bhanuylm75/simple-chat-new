@@ -20,7 +20,7 @@ const Row = ({ index, style, data }) => {
   return (
     <Link href={`/mychats/${chatHrefConstructor(sessionId, user._id)}`} key={user._id}>
       <div
-        className="flex items-center shadow-sm gap-4 p-3 border-b last:border-none lg:hover:bg-gray-100 transition rounded-lg"
+        className="flex items-center shadow-sm gap-4 p-3 pb-1 border-b last:border-none lg:hover:bg-gray-100 transition rounded-lg"
         style={style}
       >
         <img
@@ -43,7 +43,7 @@ const Sidebarcontent = ({ text, data, sessionId }) => {
 
       {/* Virtualized List */}
       <List
-        height={420}
+        height={440}
         className="scrollbar-hidden lg:h-0"
         itemData={{ users: data, sessionId }} // Pass sessionId with users
         itemCount={data.length}

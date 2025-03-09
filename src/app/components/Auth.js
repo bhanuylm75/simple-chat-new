@@ -71,8 +71,7 @@ const Auth = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-cyan-400 to-blue-700
- items-center justify-center  px-4">
+    <div className="flex flex-col min-h-screen items-center justify-center bg-gradient-to-br from-blue-400 to-purple-600 px-4">
       <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-sm">
         <h2 className="text-2xl font-bold text-center text-gray-800">
           {isRegister ? "Create an Account" : "Welcome Back"}
