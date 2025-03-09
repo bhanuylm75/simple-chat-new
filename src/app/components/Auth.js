@@ -42,7 +42,6 @@ const Auth = () => {
         setMessage(data.error);
       } else {
         setMessage(isRegister ? "Registered successfully!" : "Logged in successfully!");
-        console.log(data)
         localStorage.setItem("userData", JSON.stringify(data.user));
         login(data.token);
         router.push("/mychats");
@@ -72,43 +71,46 @@ const Auth = () => {
   };
 
   return (
-    <div className="flex w-full  justify-center items-center bg-gradient-to-br from-blue-400 to-purple-600 px-4" style={{ minHeight: "100vh" }}>
-      <div className="bg-white/10 backdrop-blur-lg p-8 sm:p-10 rounded-2xl shadow-xl w-full max-w-md border border-white/20">
-        <h2 className="text-3xl font-bold mb-6 text-white text-center tracking-wide">
+    <div className="flex min-h-screen bg-gradient-to-br from-cyan-400 to-blue-700
+ items-center justify-center  px-4">
+      <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-sm">
+        <h2 className="text-2xl font-bold text-center text-gray-800">
           {isRegister ? "Create an Account" : "Welcome Back"}
         </h2>
-        {message && <p className="text-center text-red-500 font-medium mb-3">{message}</p>}
-        <form onSubmit={handleSubmit} className="space-y-5">
+
+        {message && <p className="text-center text-red-500 font-medium my-2">{message}</p>}
+
+        <form onSubmit={handleSubmit} className="space-y-4 mt-4">
           {isRegister && (
-            <div className="relative">
-              <User className="absolute left-3 top-3 text-white/60" size={18} />
+            <div className="flex items-center border border-gray-300 rounded-lg px-3">
+              <User className="text-gray-500" size={18} />
               <input
                 id="name"
                 type="text"
-                className="w-full pl-10 pr-4 py-2 bg-white/20 text-white placeholder-white/50 border-none rounded-lg focus:ring-2 focus:ring-white focus:outline-none"
+                className="w-full p-2 text-gray-700 focus:outline-none"
                 placeholder="Full Name"
                 value={formData.name}
                 onChange={handleInputChange}
               />
             </div>
           )}
-          <div className="relative">
-            <Mail className="absolute left-3 top-3 text-white/60" size={18} />
+          <div className="flex items-center border border-gray-300 rounded-lg px-3">
+            <Mail className="text-gray-500" size={18} />
             <input
               id="email"
               type="email"
-              className="w-full pl-10 pr-4 py-2 bg-white/20 text-white placeholder-white/50 border-none rounded-lg focus:ring-2 focus:ring-white focus:outline-none"
+              className="w-full p-2 text-gray-700 focus:outline-none"
               placeholder="Email Address"
               value={formData.email}
               onChange={handleInputChange}
             />
           </div>
-          <div className="relative">
-            <Lock className="absolute left-3 top-3 text-white/60" size={18} />
+          <div className="flex items-center border border-gray-300 rounded-lg px-3">
+            <Lock className="text-gray-500" size={18} />
             <input
               id="password"
               type="password"
-              className="w-full pl-10 pr-4 py-2 bg-white/20 text-white placeholder-white/50 border-none rounded-lg focus:ring-2 focus:ring-white focus:outline-none"
+              className="w-full p-2 text-gray-700 focus:outline-none"
               placeholder="Password"
               value={formData.password}
               onChange={handleInputChange}
@@ -116,31 +118,30 @@ const Auth = () => {
           </div>
           <button
             type="submit"
-            className="w-full bg-white/20 text-white py-3 rounded-lg font-semibold hover:bg-white/30 transition-all shadow-lg hover:shadow-xl"
+            className="w-full bg-blue-500 text-white py-2 rounded-lg font-semibold hover:bg-blue-600 transition-all"
           >
             {isRegister ? "Sign Up" : "Login"}
           </button>
           <button
             type="button"
             onClick={handleGuestLogin}
-            className="w-full bg-white/20 text-white py-3 rounded-lg font-semibold hover:bg-white/30 transition-all shadow-lg hover:shadow-xl"
+            className="w-full bg-gray-300 text-gray-800 py-2 rounded-lg font-semibold hover:bg-gray-400 transition-all"
           >
             Login as Guest
           </button>
         </form>
-        <div className="mt-5 text-center">
-          <p className="text-white">
-            {isRegister ? "Already have an account?" : "Don't have an account?"}{" "}
-            <button
-              onClick={() => {
-                setIsRegister(!isRegister);
-                setMessage("");
-              }}
-              className="text-white font-medium underline"
-            >
-              {isRegister ? "Login" : "Sign Up"}
-            </button>
-          </p>
+
+        <div className="mt-4 text-center text-gray-700">
+          {isRegister ? "Already have an account?" : "Don't have an account?"}{" "}
+          <button
+            onClick={() => {
+              setIsRegister(!isRegister);
+              setMessage("");
+            }}
+            className="text-blue-600 font-medium underline"
+          >
+            {isRegister ? "Login" : "Sign Up"}
+          </button>
         </div>
       </div>
     </div>

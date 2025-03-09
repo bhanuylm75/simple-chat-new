@@ -135,7 +135,7 @@ const Messages = ({ chatid, sessionImg }) => {
       {/* Scrollable Messages Container */}
       <div
         id="messages"
-        className="bg-white h-full flex flex-1 mb-3 pt-28 md:pt-2 flex-col gap-2  pr-3 pl-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2"
+        className="bg-white h-full flex flex-1 mb-3 pt-28 md:pt-2 flex-col gap-4  pr-3 pl-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2"
       >
         {messages.map((message, index) => {
           const isCurrentUser = message.senderId === sessionId;

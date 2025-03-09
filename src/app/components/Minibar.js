@@ -15,6 +15,7 @@ const Minibar = () => {
   };
 
   const handleLogout = () => {
+    consoe.log("pp")
     logout();
     router.push("/"); // ✅ Move router logic inside a component
   };
