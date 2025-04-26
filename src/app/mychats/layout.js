@@ -7,7 +7,7 @@ export default async function DashboardLayout({ children}) {
 
          <div className="w-full " >
          <>
-        <ProtectedRoute>{children}</ProtectedRoute>
+        <>{children}</>
          </>
          </div>
      

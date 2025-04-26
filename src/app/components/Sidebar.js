@@ -6,6 +6,8 @@ import { useAuth } from "../lib/contextapi";
 import { useRouter } from "next/navigation";
 import getLocalUser from "../lib/getuserdata";
 import Sidebarcontent from "./Sidebarcontent";
+import { HiOutlinePencil } from "react-icons/hi";
+import Creategroupchat from "./Creategroupchat";
 
 const Sidebar = () => {
   const router = useRouter();
@@ -16,12 +18,13 @@ const Sidebar = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [mychats, setMyChats] = useState([]);
   const [inputText, setInputText] = useState("");
+  const [groupui,setgroupui]=useState(false)
   const { logout } = useAuth();
 
   useEffect(() => {
     fetchAllUsers();
     fetchMyChats();
-  }, [sessionId]);
+  }, []);
 
 
   const fetchAllUsers = async () => {
@@ -29,6 +32,8 @@ const Sidebar = () => {
       const { data } = await axios.get("https://api-chat.treepr.in/api/users");
       const filteredUsers = data.filter((user) => user._id !== sessionId);
       setUsers(filteredUsers);
+      setSearchResults(filteredUsers)
+      console.log("yessssnbshwbs")
     } catch (err) {
       console.error("Error fetching users: ", err.message);
     }
@@ -51,11 +56,15 @@ const Sidebar = () => {
       console.log(e);
     }
   };
-
+  console.log(mychats)
   return (
     <div className="bg-white h-full w-full cursor-pointer px-4 pt-4  lg:pt-2 rounded-lg relative shadow-lg flex flex-col">
-      <h1 className="text-xl md:text-2xl pb-3 font-bold text-gray-800">Chats</h1>
-
+      <div className="flex flex-row justify-between items-center pb-1">
+      <h1 className="text-pretty  pb-3 font-bold text-gray-800">Messenger</h1>
+      {!groupui ?<button  onClick={() => setgroupui((prev)=>!prev)} className="p-2 rounded-full ">
+      <HiOutlinePencil className="text-xl text-gray-700" />
+    </button>:<button className=" text-pretty  pb-3 font-bold text-gray-800" onClick={() => setgroupui((prev)=>!prev)}>Cancel</button>}
+      </div>
       {/* Search Bar */}
       <div className="relative flex items-center">
         {isExpanded && (
@@ -84,7 +93,7 @@ const Sidebar = () => {
       </div>
 
       {/* User List */}
-      <div className="flex-grow overflow-hidden mt-4">
+      {groupui?  <Creategroupchat session={sessionId} isexpanded={isExpanded} text={"No tive chats. Start a conversation!"} sessionid={sessionId} searchresults={searchResults} users={users}/>: (<div className="flex-grow overflow-hidden mt-4">
         {!isExpanded ? (
           mychats.length > 0 ? (
             <Sidebarcontent text={"Your chats"} sessionId={sessionId} data={mychats} />
@@ -96,7 +105,7 @@ const Sidebar = () => {
         ) : (
           <p className="text-gray-500 text-center mt-4">No users found</p>
         )}
-      </div>
+      </div>)}
     </div>
   );
 };
