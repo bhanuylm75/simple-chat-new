@@ -13,9 +13,10 @@ const Page = async () => {
       <div className="w-full mr-2 lg:mr-0  lg:w-[28%]  ">
         <Sidebar/>
         </div>
-      <div className=' w-[69%] flex justify-center items-center text-center'>
-      <p >Pick  a chat to start a conversation...</p>
-      </div>
+        <div className="hidden md:flex w-[69%] justify-center items-center text-center">
+  <p>Pick a chat to start a conversation...</p>
+</div>
+
     </div>
   );
 }

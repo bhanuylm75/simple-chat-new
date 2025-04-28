@@ -57,7 +57,7 @@ const Creategroupchat = ({ text, users, searchresults, isexpanded, sessionid }) 
 
   const creategroup = async () => {
     const item = { name: groupname, members: Array.from(selectedMembers), admin: sessionid };
-    const res = await axios.post("`https://api-chat.treepr.in/creategroup", item);
+    const res = await axios.post("https://api-chat.treepr.in/creategroup", item);
     setSelectedMembers(new Set());
     setgroupname("");
     router.push(`/mychats/groupui/${res?.data._id}`);
