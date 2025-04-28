@@ -21,7 +21,7 @@ const GroupChats = ({ groupId }) => {
 
   useEffect(() => {
     // Connect only once
-    socketRef.current = io("`https://api-chat.treepr.in/");
+    socketRef.current = io("https://api-chat.treepr.in/");
 
     // Join the group
     socketRef.current.emit("joinGroup", groupId);
