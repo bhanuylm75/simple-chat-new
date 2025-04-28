@@ -22,7 +22,7 @@ const page = async ({params}) => {
   
   
   return (
-    <div className='bg-white shadow-lg  h-screen lg:h-full   flex flex-col w-full '>
+    <div className='bg-white shadow-lg  h-screen md:h-full   flex flex-col w-full '>
       <div className='sticky top-0 bg-white z-20   '>  
         <Chatheader  chatid={chatid}
          /></div>
