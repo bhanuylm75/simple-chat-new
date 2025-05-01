@@ -5,7 +5,7 @@ import Sidebar from "@/app/components/Sidebar";
 export default async function DashboardLayout({ children }) {
  
   return (
-   <div className="h-full w-full flex flex-row ">
+   <div className="h-full w-full pt-4 flex flex-row ">
      <div className="hidden md:flex w-16">
       <Minibar/>
       </div>

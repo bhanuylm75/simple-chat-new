@@ -5,6 +5,7 @@ import getLocalUser from "../lib/getuserdata";
 import { cn } from "../lib/utils";
 import { format } from "date-fns";
 import getchatpatner from "../lib/getchatpatner";
+import axios from  "axios";
 
 const GroupChats = ({ groupId }) => {
   const [messages, setMessages] = useState([]);
@@ -21,15 +22,15 @@ const GroupChats = ({ groupId }) => {
 
   useEffect(() => {
     // Connect only once
-    socketRef.current = io("https://api-chat.treepr.in/");
+    socketRef.current = io("https://api-chat.treepr.in");
 
     // Join the group
     socketRef.current.emit("joinGroup", groupId);
 
     // Listen for previous messages
-    socketRef.current.on("groupMessageHistory", (messages) => {
-      setMessages(messages);
-    });
+    //socketRef.current.on("groupMessageHistory", (messages) => {
+      //setMessages(messages);
+    //});
 
     // Listen for new messages
     socketRef.current.on("groupMessage", (message) => {
@@ -41,6 +42,18 @@ const GroupChats = ({ groupId }) => {
       socketRef.current.disconnect();
     };
   }, [groupId]);
+
+  useEffect(()=>{
+    const getMessages = async () => {
+      const data = await fetchGroupMessages(groupId);
+      console.log(data)
+      setMessages(data);
+    };
+
+    getMessages();
+
+
+  },[groupId])
 
   
   
@@ -56,13 +69,28 @@ const GroupChats = ({ groupId }) => {
     }
   };
 
+
+  
+
+const fetchGroupMessages = async (groupId) => {
+  try {
+    const response = await axios.get(`https://api-chat.treepr.in/group-messages/${groupId}`);
+    console.log(response.data); // all messages
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching group messages:", error);
+    return [];
+  }
+};
+
+
   //console.log(messages)
   return (
     <>
     {/* Scrollable Messages Container */}
     <div
       id="messages"
-      className="bg-white h-full flex flex-1 mb-3 pt-28 md:pt-2 flex-col gap-4  pr-3 pl-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2"
+      className="bg-white h-full flex flex-1 mb-3  pt-2 flex-col gap-4  pr-3 pl-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2"
     >
       {messages.map((message, index) => {
         const isCurrentUser = message.senderId._id === sessionId;
