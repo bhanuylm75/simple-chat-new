@@ -11,7 +11,7 @@ const Sidebarcontent = ({ text, data, sessionId }) => {
 
   const [activetab,setactivetab]=useState("chats")
   return (
-    <div className="overflow-auto">
+    <div className=" h-full hide-scrollbar">
       <div className="flex flex-row justify-between pb-3">
       {tabs.map((each,i)=>(
         <span className={`cursor-pointer py-2 px-4 transition-all duration-200${activetab===each?  " text-blue-400 font-semibold"

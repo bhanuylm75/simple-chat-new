@@ -73,7 +73,7 @@ const Groups = ({ sessionId }) => {
     <div className="flex w-full max-w-xl mx-auto">
       {loading ? (
         <div className="w-full space-y-3">
-          {[...Array(5)].map((_, i) => (
+          {[...Array(6)].map((_, i) => (
             <ShimmerRow key={i} />
           ))}
         </div>

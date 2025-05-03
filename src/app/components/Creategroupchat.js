@@ -48,12 +48,12 @@ const Creategroupchat = ({
   const [groupname, setgroupname] = useState("");
   const router = useRouter();
   const data = isexpanded ? searchresults : users;
-  const [height, setHeight] = useState(400); // Initial height is 400px
+  const [height, setHeight] = useState(350); // Initial height is 400px
 
   useEffect(() => {
     // This will run ONLY after the component has mounted on the client
     const isMobile = window.innerWidth < 640;
-    setHeight(isMobile ? 460 : 400); // Dynamically update height based on window width
+    setHeight(isMobile ? 370 : 330); // Dynamically update height based on window width
   }, []); // Empty dependency array means this runs only once, after mounting
 
 
@@ -143,7 +143,7 @@ const Creategroupchat = ({
       <div className="flex min-h-fit w-full max-w-xl mx-auto ">
     <List
       //height={window.innerWidth < 640 ? 340 : 330}
-      height={height}
+      height={340}
       className="scrollbar-hidden"
       itemData={rowData}
       itemCount={data.length}
