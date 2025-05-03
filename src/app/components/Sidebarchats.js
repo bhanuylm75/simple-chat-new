@@ -1,6 +1,7 @@
 "use client"
 import { FixedSizeList as List } from "react-window";
 import Link from "next/link";
+import { useState,useEffect } from "react";
 import { chatHrefConstructor } from "../lib/utils";
 
 // Generate dummy users
@@ -17,6 +18,8 @@ const users = generateDummyUsers(1000); // Example with 1000 users
 const Row = ({ index, style, data }) => {
   const { users, sessionId } = data; // Extract users and sessionId
   const user = users[index];
+
+
 
   return (
     <Link href={`/mychats/${chatHrefConstructor(sessionId, user._id)}`} key={user._id}>
@@ -38,10 +41,20 @@ const Row = ({ index, style, data }) => {
 };
 
 const Sidebarchats = ({ text, data, sessionId }) => {
+
+  const [height, setHeight] = useState(400); // Initial height is 400px
+
+  useEffect(() => {
+    // This will run ONLY after the component has mounted on the client
+    const isMobile = window.innerWidth < 640;
+    setHeight(isMobile ? 460 : 400); // Dynamically update height based on window width
+  }, []); // Empty dependency array means this runs only once, after mounting
+
   return (
     <div className="flex  w-full max-w-xl mx-auto">
     <List
-      height={window.innerWidth < 640 ? 460 : 400}
+      //height={window.innerWidth < 640 ? 460 : 400}
+      height={height}
       className="scrollbar-hidden"
       itemData={{ users: data, sessionId }}
       itemCount={data.length}

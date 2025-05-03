@@ -1,3 +1,5 @@
+"use client "
+
 import { FixedSizeList as List } from "react-window";
 import Link from "next/link";
 import axios from "axios";
@@ -41,6 +43,14 @@ const Row = ({ index, style, data }) => {
 const Groups = ({ sessionId }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true); // Add loading state
+  const [height, setHeight] = useState(400); // Initial height is 400px
+
+  useEffect(() => {
+    // This will run ONLY after the component has mounted on the client
+    const isMobile = window.innerWidth < 640;
+    setHeight(isMobile ? 460 : 400); // Dynamically update height based on window width
+  }, []); // Empty dependency array means this runs only once, after mounting
+
 
   useEffect(() => {
     const fetchGroups = async () => {
@@ -69,7 +79,8 @@ const Groups = ({ sessionId }) => {
         </div>
       ) : (
         <List
-          height={window.innerWidth < 640 ? 460 : 400}
+          //height={window.innerWidth < 640 ? 460 : 400}
+          height={height}
           className="scrollbar-hidden"
           itemData={{ users: data, sessionId }}
           itemCount={data.length}

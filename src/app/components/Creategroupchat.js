@@ -1,6 +1,6 @@
 "use client"
 import { FixedSizeList as List } from "react-window";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
@@ -48,6 +48,14 @@ const Creategroupchat = ({
   const [groupname, setgroupname] = useState("");
   const router = useRouter();
   const data = isexpanded ? searchresults : users;
+  const [height, setHeight] = useState(400); // Initial height is 400px
+
+  useEffect(() => {
+    // This will run ONLY after the component has mounted on the client
+    const isMobile = window.innerWidth < 640;
+    setHeight(isMobile ? 460 : 400); // Dynamically update height based on window width
+  }, []); // Empty dependency array means this runs only once, after mounting
+
 
   const toggleMember = (userId, user) => {
 
@@ -134,7 +142,8 @@ const Creategroupchat = ({
       {/* User List */}
       <div className="flex min-h-fit w-full max-w-xl mx-auto ">
     <List
-      height={window.innerWidth < 640 ? 340 : 330}
+      //height={window.innerWidth < 640 ? 340 : 330}
+      height={height}
       className="scrollbar-hidden"
       itemData={rowData}
       itemCount={data.length}
