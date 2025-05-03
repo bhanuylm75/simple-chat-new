@@ -1,13 +1,22 @@
 import { FixedSizeList as List } from "react-window";
 import Link from "next/link";
 import axios from "axios";
-import { chatHrefConstructor } from "../lib/utils";
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 
+// Skeleton shimmer component
+const ShimmerRow = () => (
+  <div className="flex items-center gap-4 px-3 py-2 animate-pulse">
+    <div className="w-12 h-12 bg-gray-300 rounded-full" />
+    <div className="flex-1 space-y-2">
+      <div className="w-1/2 h-4 bg-gray-300 rounded" />
+      <div className="w-1/3 h-4 bg-gray-200 rounded" />
+    </div>
+  </div>
+);
 
-// Each row in the list (a single user card)
+// Actual user row
 const Row = ({ index, style, data }) => {
-  const { users, sessionId } = data; // Extract users and sessionId
+  const { users, sessionId } = data;
   const user = users[index];
 
   return (
@@ -30,8 +39,8 @@ const Row = ({ index, style, data }) => {
 };
 
 const Groups = ({ sessionId }) => {
-
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true); // Add loading state
 
   useEffect(() => {
     const fetchGroups = async () => {
@@ -39,31 +48,37 @@ const Groups = ({ sessionId }) => {
         const res = await axios.get(
           `https://api-chat.treepr.in/getgroups/${sessionId}`
         );
-        console.log(res.data)
         setData(res.data);
       } catch (error) {
         console.error("Error fetching groups:", error);
+      } finally {
+        setLoading(false); // Done loading
       }
     };
 
     fetchGroups();
   }, [sessionId]);
-  return (
-    <div className="flex flex-col h-full overflow-hidden pt-4">
-      
-      
 
-      {/* Virtualized List */}
-      <List
-        height={460}
-        className="scrollbar-hidden lg:h-0"
-        itemData={{ users: data, sessionId }} // Pass sessionId with users
-        itemCount={data.length}
-        itemSize={70}
-        width="100%"
-      >
-        {Row}
-      </List>
+  return (
+    <div className="flex w-full max-w-xl mx-auto">
+      {loading ? (
+        <div className="w-full space-y-3">
+          {[...Array(5)].map((_, i) => (
+            <ShimmerRow key={i} />
+          ))}
+        </div>
+      ) : (
+        <List
+          height={window.innerWidth < 640 ? 460 : 400}
+          className="scrollbar-hidden"
+          itemData={{ users: data, sessionId }}
+          itemCount={data.length}
+          itemSize={70}
+          width="100%"
+        >
+          {Row}
+        </List>
+      )}
     </div>
   );
 };

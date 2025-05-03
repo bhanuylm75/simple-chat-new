@@ -38,21 +38,18 @@ const Row = ({ index, style, data }) => {
 
 const Sidebarchats = ({ text, data, sessionId }) => {
   return (
-    <div className="flex flex-col h-full overflow-hidden pt-4">
-      
-
-      {/* Virtualized List */}
-      <List
-        height={460}
-        className="scrollbar-hidden lg:h-0"
-        itemData={{ users: data, sessionId }} // Pass sessionId with users
-        itemCount={data.length}
-        itemSize={70}
-        width="100%"
-      >
-        {Row}
-      </List>
-    </div>
+    <div className="flex  w-full max-w-xl mx-auto">
+    <List
+      height={window.innerWidth < 640 ? 460 : 400}
+      className="scrollbar-hidden"
+      itemData={{ users: data, sessionId }}
+      itemCount={data.length}
+      itemSize={70}
+      width="100%"
+    >
+      {Row}
+    </List>
+  </div>
   );
 };
 

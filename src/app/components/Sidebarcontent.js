@@ -11,8 +11,8 @@ const Sidebarcontent = ({ text, data, sessionId }) => {
 
   const [activetab,setactivetab]=useState("chats")
   return (
-    <div>
-      <div className="flex flex-row justify-between">
+    <div className="overflow-auto">
+      <div className="flex flex-row justify-between pb-3">
       {tabs.map((each,i)=>(
         <span className={`cursor-pointer py-2 px-4 transition-all duration-200${activetab===each?  " text-blue-400 font-semibold"
           : "text-gray-500 hover:text-blue-500"}`}  onClick={()=>setactivetab(each)} key={i}>{each}</span>
