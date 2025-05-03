@@ -1,3 +1,4 @@
+"use client"
 import { FixedSizeList as List } from "react-window";
 import { useState } from "react";
 import axios from "axios";

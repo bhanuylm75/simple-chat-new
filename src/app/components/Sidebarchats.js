@@ -1,3 +1,4 @@
+"use client"
 import { FixedSizeList as List } from "react-window";
 import Link from "next/link";
 import { chatHrefConstructor } from "../lib/utils";
