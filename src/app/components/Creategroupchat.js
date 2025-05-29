@@ -1,40 +1,8 @@
-"use client"
-import { FixedSizeList as List } from "react-window";
-import { useState,useEffect } from "react";
+"use client";
+
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-
-// Row component
-const Row = ({ index, style, data }) => {
-  const { users, selectedMembers, toggleMember } = data;
-  const user = users[index];
-  const isSelected = selectedMembers.has(user?._id);
-
-  return (
-    <div
-      className="flex items-center justify-between gap-4 px-2 border-b last:border-none hover:bg-gray-100 transition rounded-lg"
-      onClick={() => toggleMember(user._id, user)}
-      style={style}
-    >
-      <div className="flex items-center gap-4">
-        <img
-          src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user.name}`}
-          alt={user.name}
-          className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover"
-        />
-        <p className="text-base sm:text-lg font-semibold text-gray-800">
-          {user.name}
-        </p>
-      </div>
-      <input
-        type="checkbox"
-        checked={isSelected}
-        readOnly
-        className="w-3 h-3 appearance-none rounded-full border-2 border-gray-300 checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200"
-      />
-    </div>
-  );
-};
 
 const Creategroupchat = ({
   text,
@@ -48,47 +16,20 @@ const Creategroupchat = ({
   const [groupname, setgroupname] = useState("");
   const router = useRouter();
   const data = isexpanded ? searchresults : users;
-  const [height, setHeight] = useState(350); // Initial height is 400px
-
-  useEffect(() => {
-    // This will run ONLY after the component has mounted on the client
-    const isMobile = window.innerWidth < 640;
-    setHeight(isMobile ? 370 : 330); // Dynamically update height based on window width
-  }, []); // Empty dependency array means this runs only once, after mounting
-
 
   const toggleMember = (userId, user) => {
-
     const newSet = new Set(selectedMembers);
     newSet.has(userId) ? newSet.delete(userId) : newSet.add(userId);
     setSelectedMembers(newSet);
-    //console.log(user)
 
-    let newarr=[...selectedusers]
-
-    const index = newarr.findIndex(u => u._id === userId);
-
-  
-  if (index !== -1) {
-    newarr.splice(index, 1); 
-  } else {
-   
-    newarr.push(user);
-  }
-
-  setSelectedusers(newarr);
-  
-   setSelectedusers(newarr)
-
-   console.log(newarr)
-    
-   
-  };
-
-  const rowData = {
-    users: data,
-    selectedMembers,
-    toggleMember,
+    const updated = [...selectedusers];
+    const index = updated.findIndex((u) => u._id === userId);
+    if (index !== -1) {
+      updated.splice(index, 1);
+    } else {
+      updated.push(user);
+    }
+    setSelectedusers(updated);
   };
 
   const creategroup = async () => {
@@ -104,14 +45,14 @@ const Creategroupchat = ({
   };
 
   return (
-    <div className="flex flex-col h-full p-2 overflow-hidden">
+    <div className="flex flex-col w-full  h-full p-2 overflow-hidden">
       {/* Input + Button Section */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-3 space-y-2 sm:space-y-0 w-full max-w-xl mx-auto">
         <input
           type="text"
           value={groupname}
           placeholder="Group name"
-          className="w-full  px-4 py-2 bg-white text-gray-800 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder:text-gray-400"
+          className="w-full px-4 py-2 bg-white text-gray-800 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder:text-gray-400"
           onChange={(e) => setgroupname(e.target.value)}
         />
         <button
@@ -123,13 +64,9 @@ const Creategroupchat = ({
       </div>
 
       {/* Selected Users */}
-      <div  className="overflow-x-auto overflow-y-hidden   max-w-64 lg:max-w-full   flex gap-3 pt-4 pb-4 hide-scrollbar">
+      <div className="overflow-x-auto overflow-y-hidden max-w-64 flex gap-3 pt-4 pb-4 hide-scrollbar">
         {selectedusers.map((user, i) => (
-          <div
-            key={i}
-            className="shrink-0 w-14 h-14 rounded-full overflow-hidden"
-            title={user.name}
-          >
+          <div key={i} className="shrink-0 w-14 h-14 rounded-full overflow-hidden" title={user.name}>
             <img
               src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user.name}`}
               alt={user.name}
@@ -140,19 +77,35 @@ const Creategroupchat = ({
       </div>
 
       {/* User List */}
-      <div className="flex min-h-fit w-full max-w-xl mx-auto ">
-    <List
-      //height={window.innerWidth < 640 ? 340 : 330}
-      height={340}
-      className="scrollbar-hidden"
-      itemData={rowData}
-      itemCount={data.length}
-      itemSize={70}
-      width="100%"
-    >
-      {Row}
-    </List>
-  </div>
+      <div className="flex-1 overflow-y-auto w-full max-w-xl mx-auto hide-scrollbar">
+        {data.map((user) => {
+          const isSelected = selectedMembers.has(user._id);
+          return (
+            <div
+              key={user._id}
+              className="flex items-center justify-between h-[70px] gap-4 px-2 py-2 border-b last:border-none hover:bg-gray-100 transition rounded-lg cursor-pointer"
+              onClick={() => toggleMember(user._id, user)}
+            >
+              <div className="flex items-center gap-4">
+                <img
+                  src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user.name}`}
+                  alt={user.name}
+                  className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover"
+                />
+                <p className="text-base sm:text-lg font-semibold text-gray-800">
+                  {user.name}
+                </p>
+              </div>
+              <input
+                type="checkbox"
+                checked={isSelected}
+                readOnly
+                className="w-3 h-3 appearance-none rounded-full border-2 border-gray-300 checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200"
+              />
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

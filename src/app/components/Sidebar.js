@@ -58,7 +58,7 @@ const Sidebar = () => {
   };
   console.log(mychats)
   return (
-    <div className="bg-white h-full w-full cursor-pointer px-4 pt-4  lg:pt-2 rounded-lg relative shadow-lg flex flex-col">
+    <div className="bg-white h-full  cursor-pointer px-4 pt-4  lg:pt-2 rounded-lg relative shadow-lg flex flex-col">
       <div className="flex flex-row justify-between items-center pb-1">
       <h1 className="text-pretty  pb-3 font-bold text-sky-600">{!groupui ?"Messenger":"New Group"}</h1>
       {!groupui ?<button  onClick={() => setgroupui((prev)=>!prev)} className="p-2 rounded-full ">
