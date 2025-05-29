@@ -41,6 +41,7 @@ const Row = ({ index, style, data }) => {
 };
 
 const Sidebarchats = ({ text, data, sessionId }) => {
+  console.log(data)
 
   const [height, setHeight] = useState(400); // Initial height is 400px
 

@@ -135,7 +135,7 @@ const Messages = ({ chatid, sessionImg }) => {
       {/* Scrollable Messages Container */}
       <div
         id="messages"
-        className="bg-white h-full flex flex-1 mb-3 pt-28 md:pt-2 flex-col gap-4  pr-3 pl-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2"
+        className="bg-white h-full flex flex-1 mb-3 pt-2 md:pt-2 flex-col gap-4  pr-3 pl-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2"
       >
         {messages.map((message, index) => {
           const isCurrentUser = message.senderId === sessionId;
@@ -188,7 +188,7 @@ const Messages = ({ chatid, sessionImg }) => {
       </div>
 
       {/* Fixed Input Section */}
-      <div className="sticky bottom-0   w-full    z-20  ">
+      <div className="sticky bottom-0 mt-2   w-full  ">
       <div className="  flex items-center w-full pt-0 gap-3 px-3 pb-3  ">
         <textarea
           className="flex-grow w-full resize-none border rounded-lg p-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
@@ -202,7 +202,7 @@ const Messages = ({ chatid, sessionImg }) => {
         <button
           onClick={handleSendMessage}
           disabled={isLoading}
-          className="px-4 py-2 bg-blue-500 text-white font-medium rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+          className="px-4 py-2  bg-blue-500 text-white font-medium rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
         >
           {isLoading ? "Sending..." : "Send"}
         </button>

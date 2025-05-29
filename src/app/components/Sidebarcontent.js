@@ -11,19 +11,34 @@ const Sidebarcontent = ({ text, data, sessionId }) => {
 
   const [activetab,setactivetab]=useState("chats")
   return (
-    <div className=" h-full hide-scrollbar">
-      <div className="flex flex-row justify-between pb-3">
-      {tabs.map((each,i)=>(
-        <span className={`cursor-pointer py-2 px-4 transition-all duration-200${activetab===each?  " text-blue-400 font-semibold"
-          : "text-gray-500 hover:text-blue-500"}`}  onClick={()=>setactivetab(each)} key={i}>{each}</span>
-      ))}
-      </div>
-     
-      {activetab==="chats" &&<Sidebarchats data={data} text={text} sessionId={sessionId}/>}
-      
-      {activetab==="groups" &&<Groups  sessionId={sessionId}/>}
-      {activetab==="unread" &&<Unread  sessionId={sessionId}/>}
-    </div>
+    <div className="flex flex-col h-full overflow-hidden">
+  {/* Tab Header */}
+  <div className="flex flex-row justify-between pb-3 px-2">
+    {tabs.map((each, i) => (
+      <span
+        key={i}
+        className={`cursor-pointer py-2 px-4 transition-all duration-200${
+          activetab === each
+            ? " text-blue-400 font-semibold"
+            : " text-gray-500 hover:text-blue-500"
+        }`}
+        onClick={() => setactivetab(each)}
+      >
+        {each}
+      </span>
+    ))}
+  </div>
+
+  {/* Content area with scroll */}
+  <div className="flex-1 h-full overflow-y-auto hide-scrollbar">
+    {activetab === "chats" && (
+      <Sidebarchats data={data} text={text} sessionId={sessionId} />
+    )}
+    {activetab === "groups" && <Groups sessionId={sessionId} />}
+    {activetab === "unread" && <Unread sessionId={sessionId} />}
+  </div>
+</div>
+
   );
 };
 
