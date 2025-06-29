@@ -43,7 +43,7 @@ const Groups = ({ sessionId }) => {
     const fetchGroups = async () => {
       try {
         const res = await axios.get(
-          `https://api-chat.treepr.in/getgroups/${"67fd4f41a97ac26bbb9152a1"}`
+          `https://api-chat.treepr.in/getgroups/${sessionId}`
         );
         setData(res.data);
       } catch (error) {

@@ -1,70 +1,64 @@
-"use client"
-import { FixedSizeList as List } from "react-window";
+"use client";
+
 import Link from "next/link";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { chatHrefConstructor } from "../lib/utils";
 
-// Generate dummy users
-const generateDummyUsers = (count) => {
-  return Array.from({ length: count }, (_, i) => ({
-    _id: `user_${i}`,
-    name: `User ${i + 1}`,
-  }));
-};
-
-const users = generateDummyUsers(1000); // Example with 1000 users
-
-// Each row in the list (a single user card)
-const Row = ({ index, style, data }) => {
-  const { users, sessionId } = data; // Extract users and sessionId
-  const user = users[index];
-
-
-
-  return (
-    <Link href={`/mychats/${chatHrefConstructor(sessionId, user._id)}`} key={user._id}>
-      <div
-        className="flex items-center shadow-sm gap-4 pl-3 border-b last:border-none lg:hover:bg-gray-100 transition rounded-lg"
-        style={style}
-      >
-        <img
-          src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user.name}`}
-          alt={user.name}
-          className="w-12 h-12 rounded-full object-cover"
-        />
-        <div>
-          <p className="text-lg font-semibold text-gray-800">{user.name}</p>
-        </div>
-      </div>
-    </Link>
-  );
-};
-
-const Sidebarchats = ({ text, data, sessionId }) => {
-  console.log(data)
-
-  const [height, setHeight] = useState(400); // Initial height is 400px
-
-  useEffect(() => {
-    // This will run ONLY after the component has mounted on the client
-    const isMobile = window.innerWidth < 640;
-    setHeight(isMobile ? 460 : 400); // Dynamically update height based on window width
-  }, []); // Empty dependency array means this runs only once, after mounting
-
-  return (
-    <div className="flex  w-full max-w-xl mx-auto">
-    <List
-      //height={window.innerWidth < 640 ? 460 : 400}
-      height={height}
-      className="scrollbar-hidden"
-      itemData={{ users: data, sessionId }}
-      itemCount={data.length}
-      itemSize={70}
-      width="100%"
-    >
-      {Row}
-    </List>
+// Shimmer loader during fake loading delay
+const ShimmerRow = () => (
+  <div className="flex items-center gap-4 px-3 py-2 animate-pulse">
+    <div className="w-12 h-12 bg-gray-300 rounded-full" />
+    <div className="flex-1 space-y-2">
+      <div className="w-1/2 h-4 bg-gray-300 rounded" />
+      <div className="w-1/3 h-4 bg-gray-200 rounded" />
+    </div>
   </div>
+);
+
+// Renders the user list
+const ListUsers = ({ users, sessionId }) => (
+  <div className="">
+    {users.map((user) => (
+      <Link href={`/mychats/${chatHrefConstructor(sessionId, user._id)}`} key={user._id}>
+        <div className="flex h-[70px] items-center shadow-sm gap-4 border-b last:border-none lg:hover:bg-gray-100 transition rounded-lg">
+          <img
+            src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user.name}`}
+            alt={user.name}
+            className="w-12 h-12 rounded-full object-cover"
+          />
+          <div>
+            <p className="text-lg font-semibold text-gray-800">{user.name}</p>
+          </div>
+        </div>
+      </Link>
+    ))}
+  </div>
+);
+
+// Main component
+const Sidebarchats = ({ sessionId, data }) => {
+  const [loading, setLoading] = useState(true);
+
+  // Simulate a loading effect like Groups does
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 500); // optional delay
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <div className="flex px-2 flex-1 flex-col pb-2">
+      <div className="flex-1 overflow-y-auto w-full max-w-xl mx-auto hide-scrollbar">
+        {loading ? (
+          <div className="w-full space-y-3">
+            {[...Array(6)].map((_, i) => (
+              <ShimmerRow key={i} />
+            ))}
+          </div>
+        ) : (
+          <ListUsers users={data} sessionId={sessionId} />
+        )}
+      </div>
+    </div>
   );
 };
 
