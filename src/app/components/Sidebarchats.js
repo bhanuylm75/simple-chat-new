@@ -36,7 +36,7 @@ const ListUsers = ({ users, sessionId }) => (
 );
 
 // Main component
-const Sidebarchats = ({ sessionId, data }) => {
+const Sidebarchats = ({ sessionId, data,text }) => {
   const [loading, setLoading] = useState(true);
 
   // Simulate a loading effect like Groups does
@@ -47,6 +47,7 @@ const Sidebarchats = ({ sessionId, data }) => {
 
   return (
     <div className="flex px-2 flex-1 flex-col pb-2">
+      <span>{text}</span>
       <div className="flex-1 overflow-y-auto w-full max-w-xl mx-auto hide-scrollbar">
         {loading ? (
           <div className="w-full space-y-3">
