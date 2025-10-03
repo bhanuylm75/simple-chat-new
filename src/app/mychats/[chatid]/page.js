@@ -3,11 +3,8 @@
 import Image from 'next/image'
 
 import Messages from "@/app/components/messages";
-import getchatpatnerid from "@/app/lib/getchatpatner";
 import Chatheader from "@/app/components/chat-header";
 import axios from "axios";
-import ChatInput from "@/app/components/Chatinput";
-//import { useEffect } from "react";
 
 
 

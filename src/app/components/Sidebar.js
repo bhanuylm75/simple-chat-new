@@ -49,13 +49,21 @@ const Sidebar = () => {
   };
 
   const fetchMyChats = async () => {
-    try {
-      const response = await axios.get(`https://api-chat.treepr.in/mychats/${sessionId}`);
-      setMyChats(response?.data);
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  const start = performance.now();
+
+  try {
+    const response = await axios.get(`https://api-chat.treepr.in/mychats/${sessionId}`);
+    const end = performance.now();
+    console.log(`fetchMyChats took ${(end - start).toFixed(2)} ms`);
+
+    setMyChats(response?.data);
+  } catch (e) {
+    const end = performance.now();
+    console.log(`fetchMyChats failed in ${(end - start).toFixed(2)} ms`);
+    console.log(e);
+  }
+};
+
   console.log(mychats)
   return (
     <div className="bg-white h-full  cursor-pointer px-4 pt-4  lg:pt-2 rounded-lg relative shadow-lg flex flex-col">
@@ -93,10 +101,10 @@ const Sidebar = () => {
       </div>
 
       {/* User List */}
-      {groupui?  <Creategroupchat session={sessionId} isexpanded={isExpanded} text={"No tive chats. Start a conversation!"} sessionid={sessionId} searchresults={searchResults} users={users}/>: (<div className="flex-grow overflow-hidden mt-4">
+      {groupui?  <Creategroupchat sessionid={sessionId} isexpanded={isExpanded} text={"No tive chats. Start a conversation!"}  searchresults={searchResults} users={users}/>: (<div className="flex-grow overflow-hidden mt-4">
         {!isExpanded ? (
           mychats.length > 0 ? (
-            <Sidebarcontent text={"Your chats"} sessionId={sessionId} data={mychats} />
+            <Sidebarcontent text={"Your chats"} func={fetchMyChats} sessionId={sessionId} data={mychats} />
           ) : (
             <Sidebarcontent text={"No active chats. Start a conversation!"} sessionId={sessionId} data={users} />
           )

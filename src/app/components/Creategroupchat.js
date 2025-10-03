@@ -40,8 +40,14 @@ const Creategroupchat = ({
     };
     const res = await axios.post("https://api-chat.treepr.in/creategroup", item);
     setSelectedMembers(new Set());
+    setSelectedusers([])
     setgroupname("");
-    router.push(`/mychats/groupui/${res?.data._id}`);
+    console.log("groupid" ,res.data._id)
+    if(res.data._id){
+        router.push(`/mychats/groupui/${res?.data._id}`);
+    }
+    
+  
   };
 
   return (

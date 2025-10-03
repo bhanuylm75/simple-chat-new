@@ -42,7 +42,7 @@ const GroupHeader = ({ groupId }) => {
         ) : (
           <div className="relative w-10 sm:w-12 h-10 sm:h-12">
             <img
-              src={`https://api.dicebear.com/7.x/identicon/svg?seed=${"ok ok"|| 'group'}`}
+              src={`https://api.dicebear.com/7.x/identicon/svg?seed=${groupDetails?.name}`}
               alt="Group Avatar"
               className="rounded-full border border-gray-300 shadow-sm"
             />

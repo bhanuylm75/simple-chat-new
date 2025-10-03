@@ -6,10 +6,16 @@ import Unread from "./unread";
 
 const tabs=["chats","groups","unread"]
 
-const Sidebarcontent = ({ text, data, sessionId }) => {
+const Sidebarcontent = ({ text, data, sessionId,func }) => {
 
 
   const [activetab,setactivetab]=useState("chats")
+
+  const updateactivetab=(each)=>{
+    setactivetab(each)
+    func() 
+
+  }
   return (
     <div className="flex flex-col h-full overflow-hidden">
   {/* Tab Header */}
@@ -22,7 +28,7 @@ const Sidebarcontent = ({ text, data, sessionId }) => {
             ? " text-blue-400 font-semibold"
             : " text-gray-500 hover:text-blue-500"
         }`}
-        onClick={() => setactivetab(each)}
+        onClick={() => updateactivetab(each) }
       >
         {each}
       </span>

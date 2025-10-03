@@ -17,7 +17,7 @@ const ShimmerRow = () => (
 const Listgroup = ({ users }) => {
   return (
     <div className="">
-      {users.map((user) => (
+      {users?.map((user) => (
         <Link href={`/mychats/groupui/${user._id}`} key={user._id}>
           <div className="flex h-[70px] items-center shadow-sm gap-4  border-b last:border-none lg:hover:bg-gray-100 transition rounded-lg">
             <img
@@ -40,21 +40,30 @@ const Groups = ({ sessionId }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchGroups = async () => {
-      try {
-        const res = await axios.get(
-          `https://api-chat.treepr.in/getgroups/${sessionId}`
-        );
-        setData(res.data);
-      } catch (error) {
-        console.error("Error fetching groups:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+   const fetchGroups = async () => {
+  const start = performance.now(); // or use Date.now()
+
+  try {
+    const res = await axios.get(
+      `https://api-chat.treepr.in/getgroups/${sessionId}`
+    );
+    const end = performance.now();
+    console.log(`fetchGroups took ${(end - start).toFixed(2)} ms`);
+
+    setData(res.data);
+    console.log(res);
+  } catch (error) {
+    const end = performance.now();
+    console.error(`fetchGroups failed in ${(end - start).toFixed(2)} ms`);
+    console.error("Error fetching groups:", error);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
     fetchGroups();
-  }, [sessionId]);
+  }, []);
 
   return (
     <div className="flex px-2 flex-1 flex-col pb-2 ">
