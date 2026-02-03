@@ -19,10 +19,11 @@ const GroupChats = ({ groupId }) => {
   }, []);
 
   useEffect(() => {
-    socketRef.current = io("https://api-chat.treepr.in");
+    socketRef.current = io("https://sky.firm.in/");
     socketRef.current.emit("joinGroup", groupId);
 
     socketRef.current.on("groupMessage", (message) => {
+      console.log("Received group message:", message);
       setMessages((prev) => [...prev, message]);
     });
 
@@ -34,6 +35,7 @@ const GroupChats = ({ groupId }) => {
   useEffect(() => {
     const getMessages = async () => {
       const data = await fetchGroupMessages(groupId);
+      console.log("group messages", data);
       setMessages(data);
     };
     getMessages();
@@ -45,6 +47,7 @@ const GroupChats = ({ groupId }) => {
 
   const handleSendMessage = () => {
     if (messageText.trim() && socketRef.current) {
+      console.log("sending group message", messageText);
       socketRef.current.emit("groupMessage", {
         groupId,
         senderId: sessionId,
@@ -57,7 +60,7 @@ const GroupChats = ({ groupId }) => {
   const fetchGroupMessages = async (groupId) => {
     try {
       const response = await axios.get(
-        `https://api-chat.treepr.in/group-messages/${groupId}`
+        `https://sky.firm.in/group-messages/${groupId}`
       );
       return response.data;
     } catch (error) {

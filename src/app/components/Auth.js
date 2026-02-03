@@ -35,8 +35,8 @@ const Auth = () => {
     if (!validateForm()) return;
     try {
       const url = isRegister
-        ? "https://api-chat.treepr.in/api/register"
-        : "https://api-chat.treepr.in/api/login";
+        ? "https://sky.firm.in/api/register"
+        : "https://sky.firm.in/api/login";
       const { data } = await axios.post(url, formData);
       if (data.error) {
         setMessage(data.error);
@@ -53,7 +53,7 @@ const Auth = () => {
 
   const handleGuestLogin = async () => {
     try {
-      const { data } = await axios.post("https://api-chat.treepr.in/api/login", {
+      const { data } = await axios.post("https://sky.firm.in/api/login", {
         email: "guest@example.com",
         password: "guest123",
       });

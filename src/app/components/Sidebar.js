@@ -29,7 +29,7 @@ const Sidebar = () => {
 
   const fetchAllUsers = async () => {
     try {
-      const { data } = await axios.get("https://api-chat.treepr.in/api/users");
+      const { data } = await axios.get("https://sky.firm.in/api/users");
       const filteredUsers = data.filter((user) => user._id !== sessionId);
       setUsers(filteredUsers);
       setSearchResults(filteredUsers)
@@ -52,7 +52,7 @@ const Sidebar = () => {
   const start = performance.now();
 
   try {
-    const response = await axios.get(`https://api-chat.treepr.in/mychats/${sessionId}`);
+    const response = await axios.get(`https://sky.firm.in/mychats/${sessionId}`);
     const end = performance.now();
     console.log(`fetchMyChats took ${(end - start).toFixed(2)} ms`);
 

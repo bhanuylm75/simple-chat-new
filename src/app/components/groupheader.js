@@ -12,9 +12,9 @@ const GroupHeader = ({ groupId }) => {
   useEffect(() => {
     async function fetchGroupDetails() {
       try {
-        const response = await axios.get(`https://api-chat.treepr.in/getgroupdetails/${groupId}`);
+        const response = await axios.get(`https://sky.firm.in/getgroupdetails/${groupId}`);
         setGroupDetails(response.data);
-        console.log(response.data)
+        console.log("groupdetails", response.data)
       } catch (error) {
         console.error("Error fetching group details:", error);
       } finally {

@@ -30,7 +30,7 @@ const Chatheader = ({ chatid }) => {
     if (chatPartner && chatPartner._id && user) {
       async function addToMyChats() {
         try {
-          await axios.post("https://api-chat.treepr.in/addtomychats", {
+          await axios.post("https://sky.firm.in/addtomychats", {
             user,
             chatPartner,
             chatid,

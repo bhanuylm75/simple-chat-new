@@ -45,7 +45,7 @@ const Groups = ({ sessionId }) => {
 
   try {
     const res = await axios.get(
-      `https://api-chat.treepr.in/getgroups/${sessionId}`
+      `https://sky.firm.in/getgroups/${sessionId}`
     );
     const end = performance.now();
     console.log(`fetchGroups took ${(end - start).toFixed(2)} ms`);

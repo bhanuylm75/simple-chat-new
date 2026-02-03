@@ -36,7 +36,7 @@ const ChatInput = ({ chatid }) => {
 
  
   useEffect(() => {
-    socket = io("https://api-chat.treepr.in/");
+    socket = io("https://sky.firm.in");
 
     // Optionally, listen for acknowledgements or errors
     socket.on("connection", () => {

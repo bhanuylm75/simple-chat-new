@@ -38,7 +38,7 @@ const Creategroupchat = ({
       members: Array.from(selectedMembers),
       admin: sessionid,
     };
-    const res = await axios.post("https://api-chat.treepr.in/creategroup", item);
+    const res = await axios.post("https://sky.firm.in/creategroup", item);
     setSelectedMembers(new Set());
     setSelectedusers([])
     setgroupname("");
