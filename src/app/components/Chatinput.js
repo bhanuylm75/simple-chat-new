@@ -32,11 +32,11 @@ const ChatInput = ({ chatid }) => {
         }
       }
       fetchChatPartner();
-    }, []);
+    }, [chatid]);
 
  
   useEffect(() => {
-    socket = io("https://sky.firm.in");
+    //socket = io("http://localhost:3002"); // Replace with your server URL
 
     // Optionally, listen for acknowledgements or errors
     socket.on("connection", () => {
@@ -46,14 +46,14 @@ const ChatInput = ({ chatid }) => {
 
     socket.on("chat messages", (messageData) => {
       console.log("New message received:", messageData);
-      setMessages((prevMessages) => [...prevMessages, messageData]);
+      //setMessages((prevMessages) => [...prevMessages, messageData]);
     });
 
     socket.on("private messages", (data) => {
-      console.log("Received private message:", data);
-      setMessages((prev) => [...prev, data]);
-    });
-
+      console.log("Private message received:", data.chatId);
+  if (data.chatId !== chatid) return; // 🔥 THIS LINE FIXES YOUR BUG
+  setMessages((prev) => [...prev, data]);
+});
 
     socket.on("error", (err) => {
       console.error("Socket error:", err);

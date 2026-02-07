@@ -43,7 +43,7 @@ const Auth = () => {
       } else {
         setMessage(isRegister ? "Registered successfully!" : "Logged in successfully!");
         localStorage.setItem("userData", JSON.stringify(data.user));
-        login(data.token);
+        //login(data.token);
         router.push("/mychats");
       }
     } catch (error) {
@@ -62,7 +62,7 @@ const Auth = () => {
       } else {
         setMessage("Logged in as guest!");
         localStorage.setItem("userData", JSON.stringify(data.user));
-        login(data.token);
+        //login(data.token);
         router.push("/mychats");
       }
     } catch (error) {

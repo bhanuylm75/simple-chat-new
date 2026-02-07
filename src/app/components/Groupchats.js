@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import io from "socket.io-client";
+import { useSocket } from "../lib/custom-socket";
 import getLocalUser from "../lib/getuserdata";
 import { cn } from "../lib/utils";
 import { format } from "date-fns";
@@ -9,28 +9,35 @@ import axios from "axios";
 const GroupChats = ({ groupId }) => {
   const [messages, setMessages] = useState([]);
   const [messageText, setMessageText] = useState("");
-  const socketRef = useRef(null);
+  const [senderName, setsenderName] = useState("");
+ 
   const [sessionId, setSessionId] = useState("");
   const scrollDownRef = useRef(null);
+  const socket=useSocket()
 
   useEffect(() => {
     const user = getLocalUser();
     setSessionId(user.id);
+    setsenderName(user.name)
   }, []);
 
   useEffect(() => {
-    socketRef.current = io("https://sky.firm.in/");
-    socketRef.current.emit("joinGroup", groupId);
+    if (!socket || !groupId) return;
 
-    socketRef.current.on("groupMessage", (message) => {
-      console.log("Received group message:", message);
+    socket.emit("joinGroup", groupId);
+
+    const handleGroupMessage = (message) => {
+      if (message.groupId !== groupId) return;
       setMessages((prev) => [...prev, message]);
-    });
+    };
+
+    socket.on("groupMessage", handleGroupMessage);
 
     return () => {
-      socketRef.current.disconnect();
+      socket.emit("leaveGroup", groupId);
+      socket.off("groupMessage", handleGroupMessage);
     };
-  }, [groupId]);
+  }, [socket, groupId]);
 
   useEffect(() => {
     const getMessages = async () => {
@@ -46,12 +53,13 @@ const GroupChats = ({ groupId }) => {
   }, [messages]);
 
   const handleSendMessage = () => {
-    if (messageText.trim() && socketRef.current) {
+    if (messageText.trim() && socket) {
       console.log("sending group message", messageText);
-      socketRef.current.emit("groupMessage", {
+      socket.emit("groupMessage", {
         groupId,
         senderId: sessionId,
         text: messageText,
+        name:senderName
       });
       setMessageText("");
     }
@@ -77,9 +85,9 @@ const GroupChats = ({ groupId }) => {
         id="messages"
       >
         {messages.map((message, index) => {
-          const isCurrentUser = message.senderId._id === sessionId;
+          const isCurrentUser = message.senderId === sessionId;
           const hasPrevSameUser =
-            messages[index - 1]?.senderId?._id === message.senderId._id;
+            messages[index - 1]?.senderId === message.senderId;
 
           return (
             <div key={`${message._id || index}-${message.createdAt}`} className="flex flex-col">
@@ -94,7 +102,7 @@ const GroupChats = ({ groupId }) => {
                     {!hasPrevSameUser && (
                       <div className="w-8 h-8 mr-2 flex-shrink-0">
                         <img
-                          src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${message.senderId?.name}`}
+                          src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${message.senderName}`}
                           alt="Profile"
                           referrerPolicy="no-referrer"
                           className="rounded-full w-full h-full object-cover"

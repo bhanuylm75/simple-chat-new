@@ -1,6 +1,7 @@
 "use client";
 import { cn } from "../lib/utils";
 import { format } from "date-fns";
+import { useSocket } from "../lib/custom-socket";
 import { useEffect, useRef, useState } from "react";
 import getLocalUser from "../lib/getuserdata";
 import getchatpatner from "../lib/getchatpatner";
@@ -14,7 +15,8 @@ const Messages = ({ chatid, sessionImg }) => {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const scrollDownRef = useRef(null);
-  const socketRef = useRef(null);
+  const socket=useSocket()
+  
 
   const user = getLocalUser();
 
@@ -39,34 +41,27 @@ const Messages = ({ chatid, sessionImg }) => {
   }, [chatid]);
 
   // Setup socket connection
-  useEffect(() => {
-    socketRef.current = io("https://sky.firm.in");
-    const socket = socketRef.current;
+   useEffect(() => {
+    if (!socket || !chatid) return;
 
-    socket.on("connect", () => {
-      console.log("Connected to socket server:", socket.id);
-      if (sessionId) {
-        socket.emit("register", sessionId);
-      }
-    });
+    console.log("Joining chat:", chatid);
+    socket.emit("joinChat", chatid);
 
-    socket.on("private messages", (data) => {
-      console.log("Received private message:", data);
-      setMessages((prev) => [...prev, data]);
-    });
+    const handleIncomingMessage = (message) => {
+      if (message.chatId !== chatid ) return;
+      setMessages((prev) => [...prev, message]);
+    };
 
-    socket.on("error", (err) => {
-      console.error("Socket error:", err);
-    });
+    socket.on("private messages", handleIncomingMessage);
+
+    
 
     return () => {
-      socket.off("connect");
-      socket.off("private messages");
-      socket.off("error");
-      socket.disconnect();
+      socket.emit("leaveChat", chatid);
+      socket.off("private messages", handleIncomingMessage);
+      // ❌ DO NOT socket.disconnect()
     };
-  }, [sessionId]);
-
+  }, [socket, chatid]);
   // Fetch chat partner data when chatid changes
   useEffect(() => {
     async function fetchChatPartner() {
@@ -120,8 +115,8 @@ const Messages = ({ chatid, sessionImg }) => {
     };
 
     try {
-      socketRef.current.emit("private messages", messageData);
-      setMessages((prev) => [...prev, messageData]);
+      socket.emit("private messages", messageData);
+      //setMessages((prev) => [...prev, messageData]);
       setInput("");
     } catch (error) {
       console.error("Error sending message:", error);

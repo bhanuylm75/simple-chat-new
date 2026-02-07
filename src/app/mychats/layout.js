@@ -1,5 +1,6 @@
 "use client";
 import { usePathname } from "next/navigation";
+//import { SocketProvider } from "../lib/socket-context";
 import { useState, useEffect } from "react";
 import Minibar from "@/app/components/Minibar";
 import Sidebar from "@/app/components/Sidebar";
@@ -20,7 +21,7 @@ export default function DashboardLayout({ children }) {
   console.log("deatisl",isChatDetail)
 
   return (
-    <div className="bg-gray-100 h-full lg:pr-0 pb-4 flex flex-row w-full">
+     <div className="bg-gray-100 h-full lg:pr-0 pb-4 flex flex-row w-full">
       {/* Minibar always visible innonly home screen */}
       <div className={`w-16 ${
           isMobile && isChatDetail ? "hidden" : "block"
@@ -46,5 +47,6 @@ export default function DashboardLayout({ children }) {
         {children}
       </div>
     </div>
+  
   );
 }
