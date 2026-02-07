@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { useSocket } from "../lib/custom-socket";
+import { useSocket } from "../lib/socket-context";
 import getLocalUser from "../lib/getuserdata";
 import { cn } from "../lib/utils";
 import { format } from "date-fns";
