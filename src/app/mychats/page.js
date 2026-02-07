@@ -1,6 +1,4 @@
-import ChatInput from '../components/Chatinput';
-import Sidebar from '../components/Sidebar';
-import Minibar from '../components/Minibar';
+
 
 
 const Page = async () => {

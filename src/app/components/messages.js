@@ -1,12 +1,12 @@
 "use client";
 import { cn } from "../lib/utils";
 import { format } from "date-fns";
-import { useSocket } from "../lib/custom-socket";
+import { useSocket } from "../lib/socket-context";
 import { useEffect, useRef, useState } from "react";
 import getLocalUser from "../lib/getuserdata";
 import getchatpatner from "../lib/getchatpatner";
 import axios from "axios";
-import io from "socket.io-client";
+
 
 const Messages = ({ chatid, sessionImg }) => {
   const [messages, setMessages] = useState([]);
@@ -105,6 +105,10 @@ const Messages = ({ chatid, sessionImg }) => {
   const handleSendMessage = async () => {
     if (!input.trim()) return;
     setIsLoading(true);
+    if (!socket) {
+    console.log("Socket not ready yet");
+    return;
+  }
 
     const messageData = {
       senderId: sessionId,
