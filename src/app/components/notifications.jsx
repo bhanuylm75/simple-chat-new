@@ -6,7 +6,7 @@ export default function Notifications({
   items,
   onRemove,
   onClick,
-  duration = 45000,
+  duration = 3000,
 }) {
   return (
     <div className="fixed top-4 right-4 z-50 flex flex-col gap-2 w-[90%] sm:w-[320px]">
