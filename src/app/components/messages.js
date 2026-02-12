@@ -29,16 +29,20 @@ const Messages = ({ chatid, sessionImg }) => {
 
   // Fetch initial messages when chatid changes
   useEffect(() => {
-    async function fetchMessages() {
-      try {
+   if (chatid) fetchMessages();
+  }, [chatid]);
+
+  const fetchMessages= async ()=>{
+    
+    try {
         const response = await axios.get(`https://sky.firm.in/api/messages/${chatid}`);
         setMessages(response.data);
       } catch (error) {
         console.error("Error fetching chat messages:", error.message);
       }
     }
-    if (chatid) fetchMessages();
-  }, [chatid]);
+
+  
 
   // Setup socket connection
   useEffect(() => {
@@ -48,6 +52,7 @@ const Messages = ({ chatid, sessionImg }) => {
   const joinRoom = () => {
     console.log("Re-joining chat room:", chatid);
     socket.emit("joinChat", chatid);
+    fetchMessages()
   };
 
   // 2. Join immediately if we are already connected
