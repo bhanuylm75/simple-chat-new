@@ -24,21 +24,12 @@ const NotificationLayer = memo(function NotificationLayer() {
   const socket = useSocket();
   const router = useRouter();
   const [toasts, setToasts] = useState([]);
+  useEffect(()=>{
+    console.log(socket,"from main")
 
-  useEffect(() => {
-    if (!socket) return;
+  },[])
 
-    const handler = (data) => {
-      console.log("notified",data)
-      setToasts((prev) => [
-        { id: Date.now(), ...data },
-        ...prev,
-      ]);
-    };
-
-    socket.on("notifications", handler);
-    return () => socket.off("notifications", handler);
-  }, [socket]);
+ 
 
   const removeToast = (id) => {
     setToasts((prev) => prev.filter((t) => t.id !== id));

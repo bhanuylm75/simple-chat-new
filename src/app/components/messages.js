@@ -41,27 +41,38 @@ const Messages = ({ chatid, sessionImg }) => {
   }, [chatid]);
 
   // Setup socket connection
-   useEffect(() => {
-    if (!socket || !chatid) return;
+  useEffect(() => {
+  if (!socket || !chatid) return;
 
-    console.log("Joining chat:", chatid);
+  // 1. Define a function to join the room
+  const joinRoom = () => {
+    console.log("Re-joining chat room:", chatid);
     socket.emit("joinChat", chatid);
+  };
 
-    const handleIncomingMessage = (message) => {
-      if (message.chatId !== chatid ) return;
-      setMessages((prev) => [...prev, message]);
-    };
+  // 2. Join immediately if we are already connected
+  if (socket.connected) {
+    joinRoom();
+  }
 
-    socket.on("private messages", handleIncomingMessage);
+  // 3. IMPORTANT: If the phone wakes up and reconnects, join again!
+  socket.on("connect", joinRoom);
 
-    
+  // 4. Handle incoming messages
+  const handleIncomingMessage = (message) => {
+    if (message.chatId !== chatid) return;
+    setMessages((prev) => [...prev, message]);
+  };
 
-    return () => {
-      socket.emit("leaveChat", chatid);
-      socket.off("private messages", handleIncomingMessage);
-      // ❌ DO NOT socket.disconnect()
-    };
-  }, [socket, chatid]);
+  socket.on("private messages", handleIncomingMessage);
+
+  // 5. Cleanup
+  return () => {
+    socket.off("connect", joinRoom);
+    socket.off("private messages", handleIncomingMessage);
+    socket.emit("leaveChat", chatid);
+  };
+}, [socket, chatid]);
   // Fetch chat partner data when chatid changes
   useEffect(() => {
     async function fetchChatPartner() {
