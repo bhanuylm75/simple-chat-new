@@ -24,10 +24,29 @@ const NotificationLayer = memo(function NotificationLayer() {
   const socket = useSocket();
   const router = useRouter();
   const [toasts, setToasts] = useState([]);
-  useEffect(()=>{
-    console.log(socket,"from main")
+  useEffect(() => {
+    if (!socket) return;
 
-  },[])
+    const handleNotifications = (data) => {
+      console.log("Notification received:", data);
+      
+      // FIX 1: Wrap the single object in an array instead of spreading it
+      // Add a unique ID so removeToast works correctly
+      const newNotification = {
+        ...data,
+        id: Date.now(), // Unique ID for the UI
+      };
+
+      setToasts((prev) => [...prev, newNotification]);
+    };
+
+    socket.on("notifications", handleNotifications);
+
+    // FIX 2: Essential cleanup to prevent memory leaks and duplicate listeners
+    return () => {
+      socket.off("notifications", handleNotifications);
+    };
+  }, [socket]); // Re-run if socket changes (e.g., on phone unlock)
 
  
 

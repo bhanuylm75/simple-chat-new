@@ -6,10 +6,10 @@ export default function Notifications({
   items,
   onRemove,
   onClick,
-  duration = 3000,
+  duration = 2000,
 }) {
   return (
-    <div className="fixed top-4 right-4 z-50 flex flex-col gap-2 w-[90%] sm:w-[320px]">
+    <div className="fixed top-4 right-4 z-50 flex flex-col gap-2 w-[80%] sm:w-[320px]">
       {items.slice(0, 3).map((t) => (
         <Toast
           key={t.id}

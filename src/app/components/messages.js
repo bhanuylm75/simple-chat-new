@@ -48,6 +48,9 @@ const Messages = ({ chatid, sessionImg }) => {
   useEffect(() => {
   if (!socket || !chatid) return;
 
+
+  
+
   // 1. Define a function to join the room
   const joinRoom = () => {
     console.log("Re-joining chat room:", chatid);
